@@ -29,7 +29,6 @@ matrix:
 
 env:
   global:
-    - PACKAGE=ufal.udpipe==1.2.0.3
     - CIBW_SKIP="cp2* *32 *i686"
     - CIBW_ENVIRONMENT_LINUX="CFLAGS=-s"
     - CIBW_BUILD_VERBOSITY=3
@@ -40,12 +39,12 @@ script:
   - $PIP install cibuildwheel==1.0.0
 
   # Get the package to build
-  - $PIP download -d package $PACKAGE
+  - $PIP download -d package $BUILD_PACKAGE
   - tar -C package -xf $(echo package/*)
 
   # Build the wheels into `wheels`
   - cibuildwheel --output-dir wheels package/*/
 
-  # Upload the wheels
-  - tar zcf wheels.tar.gz wheels
-  - echo $(curl -sF "file=@wheels.tar.gz" https://file.io)
+  # Upload the wheels if required
+  - if [ "$BUILD_OPERATION" = upload ]; then tar zcf wheels.tar.gz wheels; echo $(curl -sF "file=@wheels.tar.gz" https://file.io); fi
+  - if [ "$BUILD_OPERATION" = release ]; then $PIP install twine; python -m twine upload wheels/*.whl; fi
