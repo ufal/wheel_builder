@@ -9,6 +9,7 @@ matrix:
         - docker
       env:
         - PIP=pip
+        - CFLAGS="-O2 -s"
     # OS X build
     - os:
         - osx
@@ -16,6 +17,7 @@ matrix:
         - generic
       env:
         - PIP=pip2
+        - CFLAGS=-O2
     # Windows build
     - os:
         - windows
@@ -26,6 +28,7 @@ matrix:
       env:
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
         - PIP=pip
+        - CFLAGS="/O2 /MT"
 
 env:
   global:
