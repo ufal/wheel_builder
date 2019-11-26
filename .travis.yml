@@ -33,7 +33,7 @@ script:
 
   # Get the package to build
   - $PIP download -d package ufal.udpipe==1.2.0.3
-  - tar -C package xf $(echo package/*)
+  - tar -C package -xf $(echo package/*)
 
   # Build the wheels into `wheels`
   - cibuildwheel --output-dir wheels package/*/
