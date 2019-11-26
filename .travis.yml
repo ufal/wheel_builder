@@ -32,10 +32,12 @@ script:
   - $PIP install cibuildwheel==1.0.0
 
   # Get the package to build
-  - $PIP download ufal.udpipe==1.2.0.3
-  - tar xf ufal.udpipe*.tar.gz
+  - $PIP download -d package ufal.udpipe==1.2.0.3
+  - tar -C package xf $(echo package/*)
 
-  # Build the wheels, put them into `wheelhouse` and upload them
-  - cibuildwheel --output-dir wheelhouse
-  - tar Jcf wheelhouse.tar.xz wheelhouse
-  - echo $(curl -sF "file=@wheelhouse.tar.xz" https://file.io)
+  # Build the wheels into `wheels`
+  - cibuildwheel --output-dir wheels package/*/
+
+  # Upload the wheels
+  - tar Jcf wheels.tar.xz wheels
+  - echo $(curl -sF "file=@wheels.tar.xz" https://file.io)
