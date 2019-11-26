@@ -30,7 +30,7 @@ matrix:
 env:
   global:
     - PACKAGE=ufal.udpipe==1.2.0.3
-    - CIBW_BUILD="cp3*x86_64 cp3*amd64"
+    - CIBW_SKIP="cp2* *32 *i686 *macosx_10_6*"
 
 script:
   # Install cibuildwheel
