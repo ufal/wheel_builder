@@ -9,7 +9,6 @@ matrix:
         - docker
       env:
         - PIP=pip
-        - CFLAGS="-O2 -s"
     # OS X build
     - os:
         - osx
@@ -17,7 +16,6 @@ matrix:
         - generic
       env:
         - PIP=pip2
-        - CFLAGS=-O2
     # Windows build
     - os:
         - windows
@@ -28,12 +26,16 @@ matrix:
       env:
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
         - PIP=pip
-        - CFLAGS="/O2 /MT"
 
 env:
   global:
     - PACKAGE=ufal.udpipe==1.2.0.3
-    - CIBW_SKIP="cp2* *32 *i686 *macosx_10_6*"
+    - CIBW_SKIP="cp2* *32 *i686"
+    - CIBW_ENVIRONMENT_LINUX="CFLAGS='-O2 -s'"
+    - CIBW_ENVIRONMENT_MACOS="CFLAGS='-O2'"
+    - CIBW_ENVIRONMENT_WINDOWS="CFLAGS='/O2 /MT'"
+    - CIBW_BUILD_VERBOSITY=3
+    - MACOSX_DEPLOYMENT_TARGET=10.9
 
 script:
   # Install cibuildwheel
