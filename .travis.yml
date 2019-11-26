@@ -1,0 +1,34 @@
+language: python
+
+matrix:
+  include:
+    # Linux build
+    - sudo: required
+      services:
+        - docker
+      env: PIP=pip
+    # OS X build
+    - os: osx
+      language: generic
+      env: PIP=pip2
+    # Windows build
+    - os: windows
+      language: shell
+      before_install:
+        - choco install python3 --version 3.6.8 --no-progress -y
+      env:
+        - PATH=/c/Python36:/c/Python36/Scripts:$PATH
+        - PIP=pip3
+
+script:
+  # Install cibuildwheel
+  - $PIP install cibuildwheel==1.0.0
+
+  # Get the package to build
+  - $PIP download ufal.udpipe==1.2.0.3
+  - tar xf ufal.udpipe*.tar.gz
+
+  # Build the wheels, put them into `wheelhouse` and upload them
+  - cibuildwheel --output-dir wheelhouse
+  - tar Jcf wheelhouse.tar.xz wheelhouse
+  - echo $(curl -sF "file=@wheelhouse.tar.xz" https://file.io)
