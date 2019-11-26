@@ -36,7 +36,7 @@ env:
 
 script:
   # Stop if BUILD_OPERATION is `none` or empty
-  - [ -z "$BUILD_OPERATION" -o "$BUILD_OPERATION" = none ] && travis_terminate 0
+  - if [ -z "$BUILD_OPERATION" -o "$BUILD_OPERATION" = none ]; then travis_terminate 0; fi
 
   # Install cibuildwheel
   - $PIP install cibuildwheel==1.0.0
