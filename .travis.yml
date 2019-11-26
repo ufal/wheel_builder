@@ -44,5 +44,5 @@ script:
   - cibuildwheel --output-dir wheels package/*/
 
   # Upload the wheels
-  - tar Jcf wheels.tar.xz wheels
-  - echo $(curl -sF "file=@wheels.tar.xz" https://file.io)
+  - tar zcf wheels.tar.gz wheels
+  - echo $(curl -sF "file=@wheels.tar.gz" https://file.io)
