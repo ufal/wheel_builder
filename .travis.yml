@@ -27,12 +27,17 @@ matrix:
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
         - PIP=pip
 
+env:
+  global:
+    - PACKAGE=ufal.udpipe==1.2.0.3
+    - CIBW_BUILD="cp3*x86_64 cp3*amd64"
+
 script:
   # Install cibuildwheel
   - $PIP install cibuildwheel==1.0.0
 
   # Get the package to build
-  - $PIP download -d package ufal.udpipe==1.2.0.3
+  - $PIP download -d package $PACKAGE
   - tar -C package -xf $(echo package/*)
 
   # Build the wheels into `wheels`
