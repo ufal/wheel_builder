@@ -3,22 +3,29 @@ language: python
 matrix:
   include:
     # Linux build
-    - sudo: required
+    - sudo:
+        - required
       services:
         - docker
-      env: PIP=pip
+      env:
+        - PIP=pip
     # OS X build
-    - os: osx
-      language: generic
-      env: PIP=pip2
+    - os:
+        - osx
+      language:
+        - generic
+      env:
+        - PIP=pip2
     # Windows build
-    - os: windows
-      language: shell
+    - os:
+        - windows
+      language:
+        - shell
       before_install:
         - choco install python3 --version 3.6.8 --no-progress -y
       env:
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
-        - PIP=pip3
+        - PIP=pip
 
 script:
   # Install cibuildwheel
