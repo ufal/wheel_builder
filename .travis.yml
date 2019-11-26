@@ -1,31 +1,19 @@
-language: python
-
 matrix:
   include:
     # Linux build
-    - sudo:
-        - required
-      services:
-        - docker
-      env:
-        - PIP=pip
+    - os: linux
+      language: python
+      services: docker
+      env: PIP=pip
     # OS X build
-    - os:
-        - osx
-      language:
-        - generic
-      env:
-        - PIP=pip2
+    - os: osx
+      language: shell
+      env: PIP=pip2
     # Windows build
-    - os:
-        - windows
-      language:
-        - shell
-      before_install:
-        - choco install python3 --version 3.6.8 --no-progress -y
-      env:
-        - PATH=/c/Python36:/c/Python36/Scripts:$PATH
-        - PIP=pip
+    - os: windows
+      language: shell
+      before_install: choco install python3 --version 3.6.8 --no-progress -y
+      env: PIP=pip PATH=/c/Python36:/c/Python36/Scripts:$PATH
 
 env:
   global:
