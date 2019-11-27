@@ -30,7 +30,7 @@ script:
   - $PIP install cibuildwheel==1.0.0
 
   # Get the package to build
-  - $PIP download -d package $BUILD_PACKAGE
+  - $PIP download --dest package --pre --no-binary :all: $BUILD_PACKAGE
   - tar -C package -xf $(echo package/*)
 
   # Build the wheels into `wheels`
