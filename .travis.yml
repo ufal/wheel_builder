@@ -26,15 +26,15 @@ script:
   - if [ -z "$BUILD_OPERATION" -o "$BUILD_OPERATION" = none ]; then travis_terminate 0; fi
 
   # Install cibuildwheel
-  - pip install cibuildwheel==1.5.1
+  - python3 -m pip install cibuildwheel==1.5.1
 
   # Get the package to build
-  - pip download --dest package --pre --no-binary ":all:" $BUILD_PACKAGE
+  - python3 -m pip download --dest package --pre --no-binary ":all:" $BUILD_PACKAGE
   - tar -C package -xf $(echo package/*)
 
   # Build the wheels into `wheels`
-  - cibuildwheel --output-dir wheels package/*/
+  - python3 -m cibuildwheel --output-dir wheels package/*/
 
   # Upload the wheels if required
   - if [ "$BUILD_OPERATION" = upload ]; then tar zcf wheels.tar.gz wheels; echo $(curl -sF "file=@wheels.tar.gz" https://file.io); fi
-  - if [ "$BUILD_OPERATION" = release ]; then pip install twine; python -m twine upload wheels/*.whl; fi
+  - if [ "$BUILD_OPERATION" = release ]; then python3 -m pip install twine; python3 -m twine upload wheels/*.whl; fi
