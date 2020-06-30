@@ -10,14 +10,16 @@ matrix:
     # Windows build
     - os: windows
       language: shell
-      before_install: choco install python3 --version 3.8.2 --no-progress -y
-      env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
+      before_install:
+        - choco install python3 --version 3.8.0
+        - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
+        - ln -s /c/Python38/python.exe /c/Python38/python3.exe
 
 env:
   global:
     - CIBW_BUILD="cp3*x86_64 cp3*i686 cp3*win*"
     - CIBW_ENVIRONMENT_LINUX="CFLAGS=-g0"
-    - CIBW_ENVIRONMENT_WINDOWS="CFLAGS='/MT'"
+    - CIBW_REPAIR_WHEEL_COMMAND_WINDOWS="python3 win/include_dlls.py {wheel} {dest_dir} win/PYTHON_ARCH"
     - CIBW_BUILD_VERBOSITY=3
     - MACOSX_DEPLOYMENT_TARGET=10.9
 
