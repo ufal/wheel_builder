@@ -32,7 +32,7 @@ script:
 
   # Get the package to build
   - python3 -m pip download --dest package --pre --no-binary ":all:" $BUILD_PACKAGE
-  - 7z -o package x package/*
+  - case "$(echo package/*)" in *.zip) unzip -d package package/*;; *) tar -C package -xf package/*; esac
 
   # Build the wheels into `wheels`
   - python3 -m cibuildwheel --output-dir wheels package/*/
