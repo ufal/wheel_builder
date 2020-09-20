@@ -28,7 +28,7 @@ script:
   - if [ -z "$BUILD_OPERATION" -o "$BUILD_OPERATION" = none ]; then travis_terminate 0; fi
 
   # Install cibuildwheel
-  - python3 -m pip install cibuildwheel==1.5.1
+  - python3 -m pip install cibuildwheel==1.5.5
 
   # Get the package to build
   - python3 -m pip download --dest package --pre --no-binary ":all:" $BUILD_PACKAGE
