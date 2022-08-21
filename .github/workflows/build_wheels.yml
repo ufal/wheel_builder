@@ -21,8 +21,8 @@ jobs:
         uses: pypa/cibuildwheel@v2.9.0
         env:
           CIBW_BUILD: "cp3*"
-          CIBW_MANYLINUX_X86_64_IMAGE: manylinux1
-          CIBW_MANYLINUX_I686_IMAGE: manylinux1
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux2010
+          CIBW_MANYLINUX_I686_IMAGE: manylinux2010
           MACOSX_DEPLOYMENT_TARGET: 10.9
           CIBW_ENVIRONMENT_LINUX: "CFLAGS=-g0"
           CIBW_ENVIRONMENT_WINDOWS: "CFLAGS=/d2FH4-"
