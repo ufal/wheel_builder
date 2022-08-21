@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: https://github.com/ufal/chu_liu_edmonds
+          repository: ufal/chu_liu_edmonds
           ref: master
           path: package
 
