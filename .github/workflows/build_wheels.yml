@@ -1,0 +1,36 @@
+name: Build wheels
+
+on: push
+
+jobs:
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019, macos-11]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: https://github.com/ufal/chu_liu_edmonds
+          ref: master
+          path: package
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.9.0
+        env:
+          CIBW_BUILD: "cp3*"
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux1
+          CIBW_MANYLINUX_I686_IMAGE: manylinux1
+          MACOSX_DEPLOYMENT_TARGET: 10.9
+          CIBW_ENVIRONMENT_LINUX: "CFLAGS=-g0"
+          CIBW_ENVIRONMENT_WINDOWS: "CFLAGS=/d2FH4-"
+          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "python3 win/include_dlls.py {wheel} {dest_dir} win/PYTHON_ARCH"
+          CIBW_BUILD_VERBOSITY: 3
+        with:
+          package-dir: package
+
+      - uses: actions/upload-artifact@v3
+        with:
+          path: ./wheelhouse/*.whl
