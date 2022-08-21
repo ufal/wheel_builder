@@ -23,7 +23,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.9.0
         env:
           CIBW_BUILD: "cp3*"
-          MACOSX_DEPLOYMENT_TARGET: 10.9
+          CIBW_ARCHS_MACOS: "x86_64 universal2 arm64"
           CIBW_ENVIRONMENT_LINUX: "CFLAGS=-g0"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "python3 win/include_dlls.py {wheel} {dest_dir} win/PYTHON_ARCH"
           CIBW_BUILD_VERBOSITY: 3
