@@ -23,7 +23,6 @@ jobs:
           CIBW_BUILD: "cp3*"
           MACOSX_DEPLOYMENT_TARGET: 10.9
           CIBW_ENVIRONMENT_LINUX: "CFLAGS=-g0"
-          CIBW_ENVIRONMENT_WINDOWS: "CFLAGS=/d2FH4-"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "python3 win/include_dlls.py {wheel} {dest_dir} win/PYTHON_ARCH"
           CIBW_BUILD_VERBOSITY: 3
         with:
