@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: 3.x
       - name: Download package
-        run: python3 -m pip download --dest package --pre --no-binary :all: https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.morphodita-1.10.2.99.tar.gz
+        run: python3 -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.morphodita-1.10.2.99.tar.gz
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.9.0
