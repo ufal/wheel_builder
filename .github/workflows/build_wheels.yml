@@ -13,11 +13,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/checkout@v3
+#       - uses: actions/checkout@v3
+#         with:
+#           repository: ufal/chu_liu_edmonds
+#           ref: v1.0.2
+#           path: package
+
+      - uses: actions/setup-python@v4
         with:
-          repository: ufal/chu_liu_edmonds
-          ref: v1.0.2
-          path: package
+          python-version: 3.x
+      - name: Download package
+        run: python3 -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.morphodita-1.10.2.99.tar.gz
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.9.0
@@ -28,8 +34,11 @@ jobs:
           CIBW_ENVIRONMENT_WINDOWS: "CL=-d2FH4-"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "python3 win/include_dlls.py {wheel} {dest_dir} win/PYTHON_ARCH"
           CIBW_BUILD_VERBOSITY: 3
+          CIBW_TEST_COMMAND: "python3 -m unittest discover -s {package}/tests"
+          CIBW_TEST_SKIP: "*-macosx_arm64"
         with:
-          package-dir: package
+#           package-dir: package
+          package-dir: package/ufal.morphodita-1.10.2.99.tar.gz
 
       - uses: actions/upload-artifact@v3
         with:
