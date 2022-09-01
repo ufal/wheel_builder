@@ -32,7 +32,7 @@ jobs:
           CIBW_ARCHS_MACOS: "x86_64 arm64"
           CIBW_ENVIRONMENT_LINUX: "CFLAGS=-g0"
           CIBW_ENVIRONMENT_WINDOWS: "CL=-d2FH4-"
-          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "python3 $GITHUB_WORKSPACE/win/include_dlls.py {wheel} {dest_dir} $GITHUB_WORKSPACE/win/PYTHON_ARCH"
+          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "python3 $env:GITHUB_WORKSPACE/win/include_dlls.py {wheel} {dest_dir} $env:GITHUB_WORKSPACE/win/PYTHON_ARCH"
           CIBW_BUILD_VERBOSITY: 3
           CIBW_TEST_COMMAND: "python3 -m unittest discover -s {package}/tests"
           CIBW_TEST_SKIP: "*-macosx_arm64"
