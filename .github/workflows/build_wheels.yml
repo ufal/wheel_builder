@@ -23,19 +23,19 @@ jobs:
         with:
           python-version: 3.x
       - name: Download package
-        run: python3 -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.morphodita-1.10.2.99.tar.gz
+        run: python3 -m pip download --dest package --pre --no-binary :all: https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.morphodita-1.10.2.99.tar.gz
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.9.0
         env:
-          CIBW_BUILD: "cp3*"
-          CIBW_ARCHS_MACOS: "x86_64 arm64"
-          CIBW_ENVIRONMENT_LINUX: "CFLAGS=-g0"
-          CIBW_ENVIRONMENT_WINDOWS: "CL=-d2FH4-"
-          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "python3 %GITHUB_WORKSPACE%/win/include_dlls.py {wheel} {dest_dir} %GITHUB_WORKSPACE%/win/PYTHON_ARCH"
+          CIBW_BUILD: cp3*
+          CIBW_ARCHS_MACOS: x86_64 arm64
+          CIBW_ENVIRONMENT_LINUX: CFLAGS=-g0
+          CIBW_ENVIRONMENT_WINDOWS: CL=-d2FH4-
+          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: python3 $GITHUB_WORKSPACE/win/include_dlls.py {wheel} {dest_dir} $GITHUB_WORKSPACE/win/PYTHON_ARCH
           CIBW_BUILD_VERBOSITY: 3
-          CIBW_TEST_COMMAND: "python3 -m unittest discover -s {package}/tests"
-          CIBW_TEST_SKIP: "*-macosx_arm64"
+          CIBW_TEST_COMMAND: python3 -m unittest discover -s {package}/tests
+          CIBW_TEST_SKIP: *-macosx_arm64
         with:
 #           package-dir: package
           package-dir: package/ufal.morphodita-1.10.2.99.tar.gz
