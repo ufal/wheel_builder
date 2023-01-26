@@ -8,10 +8,12 @@ parser = argparse.ArgumentParser()
 parser.add_argument("wheel", type=str, help="The source wheel")
 parser.add_argument("output_dir", type=str, help="The directory to save the updated wheel to")
 parser.add_argument("dll_dir", type=str, help="The directory with the additional libraries")
+parser.add_argument("--toplevel_directory", default=False, action="store_true", help="Copy to top-level directory")
 args = parser.parse_args()
 
 wheel_name = os.path.basename(args.wheel)
-archive_dir = wheel_name.split("-")[0].replace(".", "/")
+archive_dir = wheel_name.split("-")[0]
+archive_dir = archive_dir.split(".")[0] if args.toplevel_directory else archive_dir.replace(".", "/")
 output_wheel = os.path.join(args.output_dir, wheel_name)
 if "PYTHON_ARCH" in args.dll_dir:
     args.dll_dir = args.dll_dir.replace("PYTHON_ARCH", os.environ["PYTHON_ARCH"])
