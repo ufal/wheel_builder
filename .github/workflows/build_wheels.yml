@@ -35,7 +35,7 @@ jobs:
           CIBW_ENVIRONMENT_WINDOWS: "CL=-d2FH4-"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "python %GITHUB_WORKSPACE%/win/include_dlls.py {wheel} {dest_dir} %GITHUB_WORKSPACE%/win/PYTHON_ARCH --toplevel_directory"
           CIBW_BUILD_VERBOSITY: 3
-          CIBW_TEST_COMMAND: "python -m unittest discover -s {package}/tests"
+          CIBW_TEST_COMMAND: "cp -a {package}/test . && python -m unittest discover -s {package}/test"
           CIBW_TEST_SKIP: "*-macosx_arm64"
         with:
 #           package-dir: package
