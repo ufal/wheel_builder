@@ -13,6 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+
 #       - uses: actions/checkout@v3
 #         with:
 #           repository: ufal/chu_liu_edmonds
@@ -30,6 +36,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.12.0
         env:
           CIBW_BUILD: "cp3*"
+          CIBW_ARCHS_LINUX: "auto aarch64"
           CIBW_ARCHS_MACOS: "x86_64 arm64"
           CIBW_ENVIRONMENT_LINUX: "CFLAGS=-g0"
           CIBW_ENVIRONMENT_WINDOWS: "CL=-d2FH4-"
