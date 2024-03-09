@@ -31,28 +31,32 @@ jobs:
       - name: Download package
 #         run: python -m pip download --dest package --pre --no-binary ":all:" ufal.morphodita==1.11.2.1
 #         run: python -m pip download --dest package --pre --no-binary ":all:" ufal.nametag==1.2.1.1
-        run: python -m pip download --dest package --pre --no-binary ":all:" ufal.udpipe==1.3.1.1
+#         run: python -m pip download --dest package --pre --no-binary ":all:" ufal.udpipe==1.3.1.1
+#         run: python -m pip download --dest package --pre --no-binary ":all:" ufal.chu_liu_edmonds==1.0.2
 #         run: python -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.morphodita-1.11.2.1.tar.gz
 #         run: python -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.nametag-1.2.1.1.tar.gz
 #         run: python -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.udpipe-1.3.1.1.tar.gz
+        run: python -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.chu_liu_edmonds-1.0.3.tar.gz
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.5
         env:
-          CIBW_BUILD: "cp312*"
+          CIBW_BUILD: "cp3*"
           CIBW_ARCHS_LINUX: "auto aarch64"
           CIBW_ARCHS_MACOS: "x86_64 arm64"
           CIBW_ENVIRONMENT_LINUX: "CFLAGS=-g0"
           CIBW_ENVIRONMENT_WINDOWS: "CL=-d2FH4-"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "python %GITHUB_WORKSPACE%/win/include_dlls.py {wheel} {dest_dir} %GITHUB_WORKSPACE%/win/PYTHON_ARCH"
           CIBW_BUILD_VERBOSITY: 3
-          CIBW_TEST_COMMAND: "python -m unittest discover -s {package}/tests"
+          # For ufal.chu_liu_edmonds, we need to disable tests; MorphoDiTa, NameTag, UDPipe should use them
+          # CIBW_TEST_COMMAND: "python -m unittest discover -s {package}/tests"
           CIBW_TEST_SKIP: "*-macosx_arm64"
         with:
 #           package-dir: package
 #           package-dir: package/ufal.morphodita-1.11.2.1.tar.gz
 #           package-dir: package/ufal.nametag-1.2.1.1.tar.gz
-          package-dir: package/ufal.udpipe-1.3.1.1.tar.gz
+#           package-dir: package/ufal.udpipe-1.3.1.1.tar.gz
+          package-dir: package/ufal.chu_liu_edmonds-1.0.3.tar.gz
 
       - uses: actions/upload-artifact@v3
         with:
