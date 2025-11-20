@@ -13,7 +13,7 @@ args = parser.parse_args()
 
 wheel_name = os.path.basename(args.wheel)
 archive_dir = wheel_name.split("-")[0]
-archive_dir = archive_dir.split(".")[0] if args.toplevel_directory else archive_dir.replace(".", "/")
+archive_dir = archive_dir.split("_")[0] if args.toplevel_directory else archive_dir.replace("_", "/")
 output_wheel = os.path.join(args.output_dir, wheel_name)
 if "PYTHON_ARCH" in args.dll_dir:
     args.dll_dir = args.dll_dir.replace("PYTHON_ARCH", os.environ["PYTHON_ARCH"])
