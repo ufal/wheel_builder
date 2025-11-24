@@ -27,9 +27,9 @@ jobs:
 #         run: python -m pip download --dest package --pre --no-binary ":all:" ufal.nametag==1.2.1.1
 #         run: python -m pip download --dest package --pre --no-binary ":all:" ufal.udpipe==1.3.1.1
 #         run: python -m pip download --dest package --pre --no-binary ":all:" ufal.chu_liu_edmonds==1.0.2
-#         run: python -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.morphodita-1.11.2.1.tar.gz
+        run: python -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal_morphodita-1.11.3.1.tar.gz
 #         run: python -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.nametag-1.2.1.1.tar.gz
-        run: python -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal_udpipe-1.4.0.1.tar.gz
+#         run: python -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal_udpipe-1.4.0.1.tar.gz
 #         run: python -m pip download --dest package --pre --no-binary ":all:" https://ufallab.ms.mff.cuni.cz/~straka/w/ufal.chu_liu_edmonds-1.0.3.tar.gz
 
       - name: Build wheels
@@ -47,9 +47,9 @@ jobs:
 #           CIBW_TEST_SKIP: "*-macosx_arm64"
         with:
 #           package-dir: package
-#           package-dir: package/ufal.morphodita-1.11.2.1.tar.gz
+          package-dir: package/ufal_morphodita-1.11.3.1.tar.gz
 #           package-dir: package/ufal.nametag-1.2.1.1.tar.gz
-          package-dir: package/ufal_udpipe-1.4.0.1.tar.gz
+#           package-dir: package/ufal_udpipe-1.4.0.1.tar.gz
 #           package-dir: package/ufal.chu_liu_edmonds-1.0.3.tar.gz
 
       - uses: actions/upload-artifact@v4
