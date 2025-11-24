@@ -20,32 +20,30 @@ if "PYTHON_ARCH" in args.dll_dir:
     args.dll_dir = args.dll_dir.replace("PYTHON_ARCH", os.environ["PYTHON_ARCH"])
 
 records, records_path = [], None
-with (
-    zipfile.ZipFile(args.wheel, mode="r") as source_wheel_zip,
-    zipfile.ZipFile(output_wheel, mode="w", compression=zipfile.ZIP_DEFLATED) as output_wheel_zip,
-):
-    for item in source_wheel_zip.infolist():
-        buffer = source_wheel_zip.read(item.filename)
-        if item.filename.endswith("/RECORD"):
-            assert not records_path, "Multiple RECORD files found in the wheel"
-            records_path = item.filename
-            records = buffer.decode("utf-8").splitlines()
-            assert f"{item.filename},," in records
-        else:
-            output_wheel_zip.writestr(item, buffer)
-    assert records_path, "No RECORD file found in the wheel"
+with zipfile.ZipFile(args.wheel, mode="r") as source_wheel_zip:
+    with zipfile.ZipFile(output_wheel, mode="w", compression=zipfile.ZIP_DEFLATED) as output_wheel_zip:
+        for item in source_wheel_zip.infolist():
+            buffer = source_wheel_zip.read(item.filename)
+            if item.filename.endswith("/RECORD"):
+                assert not records_path, "Multiple RECORD files found in the wheel"
+                records_path = item.filename
+                records = buffer.decode("utf-8").splitlines()
+                assert f"{item.filename},," in records
+            else:
+                output_wheel_zip.writestr(item, buffer)
+        assert records_path, "No RECORD file found in the wheel"
 
-    for name in sorted(os.listdir(args.dll_dir)):
-        if name.lower().endswith(".dll"):
-            source_dll_path = os.path.join(args.dll_dir, name)
-            archive_dll_path = os.path.join(archive_dir, name)
-            assert not any(record.startswith(archive_dll_path + ",") for record in records)
+        for name in sorted(os.listdir(args.dll_dir)):
+            if name.lower().endswith(".dll"):
+                source_dll_path = os.path.join(args.dll_dir, name)
+                archive_dll_path = os.path.join(archive_dir, name)
+                assert not any(record.startswith(archive_dll_path + ",") for record in records)
 
-            output_wheel_zip.write(source_dll_path, archive_dll_path)
-            with open(source_dll_path, "rb") as source_dll_file:
-                dll_contents = source_dll_file.read()
-            sha256 = hashlib.sha256(dll_contents).digest()
-            sha256 = base64.urlsafe_b64encode(sha256).rstrip(b"=").decode("ascii")
-            records.append(f"{archive_dll_path},sha256={sha256},{len(dll_contents)}")
+                output_wheel_zip.write(source_dll_path, archive_dll_path)
+                with open(source_dll_path, "rb") as source_dll_file:
+                    dll_contents = source_dll_file.read()
+                sha256 = hashlib.sha256(dll_contents).digest()
+                sha256 = base64.urlsafe_b64encode(sha256).rstrip(b"=").decode("ascii")
+                records.append(f"{archive_dll_path},sha256={sha256},{len(dll_contents)}")
 
-    output_wheel_zip.writestr(records_path, "".join(record + "\n" for record in records))
+        output_wheel_zip.writestr(records_path, "".join(record + "\n" for record in records))
