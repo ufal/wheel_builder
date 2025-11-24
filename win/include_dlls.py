@@ -3,7 +3,6 @@ import argparse
 import base64
 import hashlib
 import os
-import shutil
 import zipfile
 
 parser = argparse.ArgumentParser()
